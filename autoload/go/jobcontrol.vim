@@ -75,7 +75,7 @@ function! s:spawn(desc, args)
   let argv = ['go'] + a:args
 
   " run, forrest, run!
-  let id = jobstart(argv, job)
+  let id = jobstart(join(argv, " "), job)
   let job.id = id
   let s:jobs[id] = job
 

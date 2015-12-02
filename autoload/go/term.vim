@@ -34,7 +34,18 @@ function! go#term#newmode(cmd, mode)
 		\ 'on_exit' : function('s:on_exit'),
 		\ }
 
-	let id = termopen(a:cmd, job)
+	" test for a string command vs. a list
+	" GoRun is a string cmd, GoTests are pass as a list
+	try
+		let _ = strlen(a:cmd)
+
+		let command = a:cmd
+	catch
+		" Shelllist escaping seems to cause package not found errors, run via exec
+		let command = "exec ".join(a:cmd, " ")
+	endtry
+
+	let id = termopen(command, job)
 	let job.id = id
 	startinsert
 
