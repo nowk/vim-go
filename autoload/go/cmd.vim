@@ -187,6 +187,7 @@ function! go#cmd#Test(bang, compile, ...)
 
     if has('nvim')
         if get(g:, 'go_term_enabled', 0)
+            call add(args, printf("./%s", expand("%:h")))
             call go#term#new(["go"] + args)
         else
             call go#jobcontrol#Spawn("test", args)
